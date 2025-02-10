@@ -1,7 +1,8 @@
-import "./App.css";
+import Dashboard from "./components/Dashboard";
+import Layout from "./Layout";
 
 function App() {
-  return <></>;
+  return <Layout child={<Dashboard />} />;
 }
 
 export default App;
