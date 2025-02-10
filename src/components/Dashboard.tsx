@@ -1,5 +1,7 @@
+import JDResumeInput from "./JDResumeInput";
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return <JDResumeInput />;
 };
 
 export default Dashboard;
