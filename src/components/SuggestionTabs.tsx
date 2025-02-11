@@ -1,15 +1,29 @@
 import { useState } from "react";
 import List from "./List";
 import { SuggestionData } from "./Dashboard";
+import { PropagateLoader } from "react-spinners";
+import CustomButton from "./CustomButton";
+import { IoColorWandSharp } from "react-icons/io5";
 
 type Toggle = "technical_skills" | "bullets";
 
 interface Props {
   data: SuggestionData;
   setData: React.Dispatch<React.SetStateAction<SuggestionData>>;
+  suggestionLoading: boolean;
+  updateLoading: boolean;
+  handleUpdate: () => void;
 }
 
-const SuggestionTabs = ({ data, setData }: Props) => {
+// TODO: Loading indicators and state variables for when Update is loading
+
+const SuggestionTabs = ({
+  data,
+  setData,
+  suggestionLoading,
+  updateLoading,
+  handleUpdate,
+}: Props) => {
   const [toggle, setToggle] = useState<Toggle>("technical_skills");
   const tabs: { id: Toggle; label: string }[] = [
     { id: "technical_skills", label: "Skills" },
@@ -57,17 +71,39 @@ const SuggestionTabs = ({ data, setData }: Props) => {
           </button>
         ))}
       </div>
-      {data ? (
-        <List
-          dataPoints={
-            toggle === "technical_skills" ? data.technical_skills : data.bullets
-          }
-          removeDataPoint={(index) => handleRemoveItem(toggle, index)}
-          editDataPoint={(index, newVal) => handleEditDataPoint(index, newVal)}
-          tabKey={toggle}
-        />
+      {suggestionLoading ? (
+        <div className="flex justify-center items-center h-32">
+          <PropagateLoader color="#9810fa" />
+        </div>
       ) : (
-        <p>Enhance Resume to View Suggestions</p>
+        <>
+          {data.technical_skills.length === 0 && data.bullets.length === 0 ? (
+            <div className="flex justify-center items-center text-sm h-20 font-syncopate text-gray-400">
+              <p>Enhance Resume to View Suggestions</p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4">
+              <List
+                dataPoints={
+                  toggle === "technical_skills"
+                    ? data.technical_skills
+                    : data.bullets
+                }
+                removeDataPoint={(index) => handleRemoveItem(toggle, index)}
+                editDataPoint={(index, newVal) =>
+                  handleEditDataPoint(index, newVal)
+                }
+                tabKey={toggle}
+              />
+              <CustomButton
+                loading={updateLoading}
+                handleClick={handleUpdate}
+                placeHolder="Update Docs"
+                Icon={<IoColorWandSharp className="text-xl font-extralight" />}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
