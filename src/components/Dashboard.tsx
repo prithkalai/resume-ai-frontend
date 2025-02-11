@@ -28,7 +28,7 @@ const Dashboard = () => {
       setLoading(true);
 
       if (resume.length == 0 || jobDescription.length == 0) {
-        toast("Resume/Job Description cannot be empty!!", {
+        toast("Resume/Job Desc. cannot be Empty!!", {
           type: "error",
         });
         setLoading(false);
@@ -66,10 +66,19 @@ const Dashboard = () => {
     }
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (fileName: string) => {
     // Loading : True
     try {
       setUpdateLoading(true);
+
+      if (fileName.length == 0) {
+        toast("File Name cannot be empty!", {
+          type: "error",
+        });
+
+        setUpdateLoading(false);
+        return;
+      }
 
       // Restructure data for the API
       const approvedData: AISuggestions = {
@@ -82,7 +91,7 @@ const Dashboard = () => {
           .map(({ isRemoved, ...rest }) => rest),
       };
 
-      await toast.promise(apiClient.updateGoogleDocs(approvedData), {
+      await toast.promise(apiClient.updateGoogleDocs(approvedData, fileName), {
         pending: "Updating Google Docs..",
         success: "Update Successful!",
         error: "Error Updating Google Docs!",
@@ -112,7 +121,7 @@ const Dashboard = () => {
         setData={setData}
         suggestionLoading={suggestionLoading}
         updateLoading={updateLoading}
-        handleUpdate={handleUpdate}
+        handleUpdate={(fileName) => handleUpdate(fileName)}
       />
       <ToastContainer position="bottom-center" />
     </>

@@ -24,8 +24,12 @@ class APIClient {
     });
   };
 
-  updateGoogleDocs = (approvedData: AISuggestions) => {
-    return AxiosInstance.post("/update", approvedData);
+  updateGoogleDocs = (approvedData: AISuggestions, fileName: string) => {
+    return AxiosInstance.post("/update", {
+      technical_skills: approvedData.technical_skills,
+      bullets: approvedData.bullets,
+      fileName: fileName,
+    });
   };
 }
 
