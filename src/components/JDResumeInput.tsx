@@ -12,11 +12,11 @@ const JDResumeInput = () => {
         <TextBox title="Resume" placeHolder="Paste your Resume" />
       </div>
 
-      <button className="flex items-center gap-2 p-3 rounded-md w-fit text-white  hover:cursor-pointer bg-purple-600">
+      <button className="flex items-center gap-2 p-3 rounded-md w-fit text-white  hover:cursor-pointer bg-purple-600 transition-colors hover:bg-purple-700 active:bg-purple-500">
         <span>
-          <IoColorWandSharp className="text-2xl" />
+          <IoColorWandSharp className="text-xl font-extralight" />
         </span>
-        <span className="font-alumni text-2xl font-bold">Enhance Resume</span>
+        <span className="font-syncopate text-sm font-extralight">Enhance</span>
       </button>
     </div>
   );
