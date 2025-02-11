@@ -91,17 +91,23 @@ const Dashboard = () => {
           .map(({ isRemoved, ...rest }) => rest),
       };
 
-      await toast.promise(apiClient.updateGoogleDocs(approvedData, fileName), {
-        pending: "Updating Google Docs..",
-        success: "Update Successful!",
-        error: "Error Updating Google Docs!",
-      });
+      const response = await toast.promise(
+        apiClient.updateGoogleDocs(approvedData, fileName),
+        {
+          pending: "Updating Google Docs..",
+          success: "Update Successful!",
+          error: "Error Updating Google Docs!",
+        }
+      );
 
       setData({
         technical_skills: [],
         bullets: [],
       });
       setUpdateLoading(false);
+
+      const googleDocUrl = `https://docs.google.com/document/d/${response.data.fileId}`;
+      window.open(googleDocUrl, "_blank");
     } catch (error) {
       setUpdateLoading(false);
     }
